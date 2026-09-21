@@ -15,7 +15,7 @@
                     {
                         "type": "css",
                         "target": {
-                            "selector": "div.ckg",
+                            "selector": "div.ckg button.ckg__btn.-accept",
                             "displayFilter": true
                         }
                     }

@@ -1,0 +1,105 @@
+{
+    "$schema": "https://raw.githubusercontent.com/cavi-au/Consent-O-Matic/master/rules.schema.json",
+    "forumrowerowe": {
+        "detectors": [
+            {
+                "presentMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "div.ckg button.ckg__btn.-accept"
+                        }
+                    }
+                ],
+                "showingMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "div.ckg",
+                            "displayFilter": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "methods": [
+            {
+                "name": "OPEN_OPTIONS",
+                "action": {
+                    "type": "click",
+                    "parent": {
+                        "selector": "div.ckg"
+                    },
+                    "target": {
+                        "selector": "button.ckg__btn.-more",
+                        "textFilter": "Ustawienia"
+                    }
+                }
+            },
+            {
+                "name": "DO_CONSENT",
+                "action": {
+                    "type": "list",
+                    "actions": [
+                        {
+                            "type": "waitcss",
+                            "target": {
+                                "selector": "div.bsp.is-in button.bsp__btn.-accept"
+                            },
+                            "retries": 10,
+                            "waitTime": 200
+                        },
+                        {
+                            "type": "consent",
+                            "consents": [
+                                {
+                                    "type": "F",
+                                    "trueAction": {
+                                        "type": "click",
+                                        "parent": {
+                                            "selector": "div.bsp"
+                                        },
+                                        "target": {
+                                            "selector": "button.bsp__btn.-accept",
+                                            "textFilter": "Zgadzam się"
+                                        }
+                                    },
+                                    "falseAction": {
+                                        "type": "click",
+                                        "parent": {
+                                            "selector": "div.bsp"
+                                        },
+                                        "target": {
+                                            "selector": "button.bsp__btn.-later",
+                                            "textFilter": "Nie zgadzam się"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "HIDE_CMP",
+                "action": {
+                    "type": "list",
+                    "actions": [
+                        {
+                            "type": "hide",
+                            "target": {
+                                "selector": "div.ckg"
+                            }
+                        },
+                        {
+                            "type": "hide",
+                            "target": {
+                                "selector": "div.bsp"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

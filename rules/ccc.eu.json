@@ -1,0 +1,137 @@
+{
+    "$schema": "https://raw.githubusercontent.com/cavi-au/Consent-O-Matic/master/rules.schema.json",
+    "ccc.eu": {
+        "detectors": [
+            {
+                "presentMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "#consent-modal button[data-testid='confirm-all-cookies-btn']",
+                            "displayFilter": true
+                        }
+                    }
+                ],
+                "showingMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "#consent-modal button[data-testid='confirm-all-cookies-btn']",
+                            "displayFilter": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "methods": [
+            {
+                "name": "HIDE_CMP",
+                "action": {
+                    "type": "hide",
+                    "target": {
+                        "selector": "cookie-consent-manager"
+                    }
+                }
+            },
+            {
+                "name": "OPEN_OPTIONS",
+                "action": {
+                    "type": "click",
+                    "target": {
+                        "selector": "#consent-modal button[data-testid='cookies-settings-btn']"
+                    }
+                }
+            },
+            {
+                "name": "DO_CONSENT",
+                "action": {
+                    "type": "list",
+                    "actions": [
+                        {
+                            "type": "waitcss",
+                            "target": {
+                                "selector": "#ccManager.block input[type='checkbox']"
+                            },
+                            "retries": 20,
+                            "waitTime": 250
+                        },
+                        {
+                            "type": "consent",
+                            "consents": [
+                                {
+                                    "type": "B",
+                                    "matcher": {
+                                        "type": "checkbox",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Cookie Analityczne']"
+                                        }
+                                    },
+                                    "toggleAction": {
+                                        "type": "click",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Cookie Analityczne']"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "A",
+                                    "matcher": {
+                                        "type": "checkbox",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Funkcjonalne pliki cookie']"
+                                        }
+                                    },
+                                    "toggleAction": {
+                                        "type": "click",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Funkcjonalne pliki cookie']"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "F",
+                                    "matcher": {
+                                        "type": "checkbox",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Pliki cookie marketingowe']"
+                                        }
+                                    },
+                                    "toggleAction": {
+                                        "type": "click",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Pliki cookie marketingowe']"
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "E",
+                                    "matcher": {
+                                        "type": "checkbox",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Personalizacyjne pliki cookie']"
+                                        }
+                                    },
+                                    "toggleAction": {
+                                        "type": "click",
+                                        "target": {
+                                            "selector": "#ccManager input[type='checkbox'][value='Personalizacyjne pliki cookie']"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "SAVE_CONSENT",
+                "action": {
+                    "type": "click",
+                    "target": {
+                        "selector": "#ccManager button[data-testid='confirm-selected-cookies-btn']"
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,6 +1,7 @@
 {
   "references": [
     "https://raw.githubusercontent.com/sergey-gorchichko/consent-o-matic/main/rules/centrumrowerowe.json",
-    "https://raw.githubusercontent.com/sergey-gorchichko/consent-o-matic/main/rules/forumrowerowe.json"
+    "https://raw.githubusercontent.com/sergey-gorchichko/consent-o-matic/main/rules/forumrowerowe.json",
+    "https://raw.githubusercontent.com/sergey-gorchichko/consent-o-matic/main/rules/ccc.eu.json"
   ]
 }

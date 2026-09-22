@@ -1,0 +1,144 @@
+{
+    "$schema": "https://raw.githubusercontent.com/cavi-au/Consent-O-Matic/master/rules.schema.json",
+    "skyscanner-consent-banner": {
+        "detectors": [
+            {
+                "presentMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "#consentBannerContent button[data-testid='consentBannerAcceptAll']"
+                        }
+                    }
+                ],
+                "showingMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "#consentBannerContent button[data-testid='consentBannerAcceptAll']",
+                            "displayFilter": true
+                        }
+                    }
+                ]
+            },
+            {
+                "presentMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "input[type='checkbox'][aria-label='Technologie reklamowe i pokrewne']"
+                        }
+                    }
+                ],
+                "showingMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "button.bpk-button--primary",
+                            "textFilter": "Zapisz",
+                            "displayFilter": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "methods": [
+            {
+                "name": "HIDE_CMP",
+                "action": {
+                    "type": "hide",
+                    "target": {
+                        "selector": ".consent-banner-wrapper"
+                    }
+                }
+            },
+            {
+                "name": "OPEN_OPTIONS",
+                "action": {
+                    "type": "ifallowall",
+                    "trueAction": {
+                        "type": "click",
+                        "target": {
+                            "selector": "#consentBannerContent button[data-testid='consentBannerAcceptAll']"
+                        }
+                    },
+                    "falseAction": {
+                        "type": "ifallownone",
+                        "trueAction": {
+                            "type": "click",
+                            "target": {
+                                "selector": "#consentBannerContent button[data-testid='consentBannerRejectAll']"
+                            }
+                        },
+                        "falseAction": {
+                            "type": "click",
+                            "target": {
+                                "selector": "#consentBannerContent a[data-testid='consentBannerManageSettings']"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "name": "DO_CONSENT",
+                "action": {
+                    "type": "ifcss",
+                    "target": {
+                        "selector": "input[type='checkbox'][aria-label='Technologie reklamowe i pokrewne']"
+                    },
+                    "trueAction": {
+                        "type": "consent",
+                        "consents": [
+                            {
+                                "type": "B",
+                                "matcher": {
+                                    "type": "checkbox",
+                                    "target": {
+                                        "selector": "input[type='checkbox'][aria-label='Ulepszenie usług']"
+                                    }
+                                },
+                                "toggleAction": {
+                                    "type": "click",
+                                    "target": {
+                                        "selector": "input[type='checkbox'][aria-label='Ulepszenie usług']"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "F",
+                                "matcher": {
+                                    "type": "checkbox",
+                                    "target": {
+                                        "selector": "input[type='checkbox'][aria-label='Technologie reklamowe i pokrewne']"
+                                    }
+                                },
+                                "toggleAction": {
+                                    "type": "click",
+                                    "target": {
+                                        "selector": "input[type='checkbox'][aria-label='Technologie reklamowe i pokrewne']"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "SAVE_CONSENT",
+                "action": {
+                    "type": "ifcss",
+                    "target": {
+                        "selector": "input[type='checkbox'][aria-label='Technologie reklamowe i pokrewne']"
+                    },
+                    "trueAction": {
+                        "type": "click",
+                        "target": {
+                            "selector": "button.bpk-button--primary",
+                            "textFilter": "Zapisz"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

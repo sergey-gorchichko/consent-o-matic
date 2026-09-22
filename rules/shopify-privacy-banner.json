@@ -1,0 +1,160 @@
+{
+    "$schema": "https://raw.githubusercontent.com/cavi-au/Consent-O-Matic/master/rules.schema.json",
+    "shopify-privacy-banner": {
+        "detectors": [
+            {
+                "presentMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "#shopify-pc__banner #shopify-pc__banner__btn-accept",
+                            "displayFilter": true
+                        }
+                    }
+                ],
+                "showingMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "#shopify-pc__banner #shopify-pc__banner__btn-accept",
+                            "displayFilter": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "methods": [
+            {
+                "name": "HIDE_CMP",
+                "action": {
+                    "type": "list",
+                    "actions": [
+                        {
+                            "type": "hide",
+                            "target": {
+                                "selector": "#shopify-pc__banner"
+                            }
+                        },
+                        {
+                            "type": "hide",
+                            "target": {
+                                "selector": "#shopify-pc__prefs"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "OPEN_OPTIONS",
+                "action": {
+                    "type": "click",
+                    "target": {
+                        "selector": "#shopify-pc__banner__btn-manage-prefs"
+                    }
+                }
+            },
+            {
+                "name": "DO_CONSENT",
+                "action": {
+                    "type": "ifcss",
+                    "target": {
+                        "selector": "#shopify-pc__banner__btn-manage-prefs"
+                    },
+                    "trueAction": {
+                        "type": "list",
+                        "actions": [
+                            {
+                                "type": "waitcss",
+                                "target": {
+                                    "selector": "#shopify-pc__prefs #shopify-pc__prefs__analytics-input",
+                                    "displayFilter": true
+                                },
+                                "retries": 20,
+                                "waitTime": 250
+                            },
+                            {
+                                "type": "consent",
+                                "consents": [
+                                    {
+                                        "type": "B",
+                                        "matcher": {
+                                            "type": "checkbox",
+                                            "target": {
+                                                "selector": "#shopify-pc__prefs__analytics-input"
+                                            }
+                                        },
+                                        "toggleAction": {
+                                            "type": "click",
+                                            "target": {
+                                                "selector": "#shopify-pc__prefs__analytics-input"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "F",
+                                        "matcher": {
+                                            "type": "checkbox",
+                                            "target": {
+                                                "selector": "#shopify-pc__prefs__marketing-input"
+                                            }
+                                        },
+                                        "toggleAction": {
+                                            "type": "click",
+                                            "target": {
+                                                "selector": "#shopify-pc__prefs__marketing-input"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "A",
+                                        "matcher": {
+                                            "type": "checkbox",
+                                            "target": {
+                                                "selector": "#shopify-pc__prefs__preferences-input"
+                                            }
+                                        },
+                                        "toggleAction": {
+                                            "type": "click",
+                                            "target": {
+                                                "selector": "#shopify-pc__prefs__preferences-input"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "falseAction": {
+                        "type": "consent",
+                        "consents": [
+                            {
+                                "type": "F",
+                                "trueAction": {
+                                    "type": "click",
+                                    "target": {
+                                        "selector": "#shopify-pc__banner__btn-accept"
+                                    }
+                                },
+                                "falseAction": {
+                                    "type": "click",
+                                    "target": {
+                                        "selector": "#shopify-pc__banner__btn-decline"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "name": "SAVE_CONSENT",
+                "action": {
+                    "type": "click",
+                    "target": {
+                        "selector": "#shopify-pc__prefs__header-save"
+                    }
+                }
+            }
+        ]
+    }
+}

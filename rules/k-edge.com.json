@@ -1,0 +1,67 @@
+{
+    "$schema": "https://raw.githubusercontent.com/cavi-au/Consent-O-Matic/master/rules.schema.json",
+    "k-edge.com": {
+        "detectors": [
+            {
+                "presentMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "cookie-bar:not([hidden]) button[data-action='accept-policy']",
+                            "displayFilter": true
+                        }
+                    }
+                ],
+                "showingMatcher": [
+                    {
+                        "type": "css",
+                        "target": {
+                            "selector": "cookie-bar:not([hidden]) button[data-action='accept-policy']",
+                            "displayFilter": true
+                        }
+                    }
+                ]
+            }
+        ],
+        "methods": [
+            {
+                "name": "HIDE_CMP",
+                "action": {
+                    "type": "hide",
+                    "target": {
+                        "selector": "cookie-bar"
+                    }
+                }
+            },
+            {
+                "name": "DO_CONSENT",
+                "action": {
+                    "type": "consent",
+                    "consents": [
+                        {
+                            "type": "F",
+                            "trueAction": {
+                                "type": "click",
+                                "parent": {
+                                    "selector": "cookie-bar"
+                                },
+                                "target": {
+                                    "selector": "button[data-action='accept-policy']"
+                                }
+                            },
+                            "falseAction": {
+                                "type": "click",
+                                "parent": {
+                                    "selector": "cookie-bar"
+                                },
+                                "target": {
+                                    "selector": "button[data-action='decline-policy']"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
